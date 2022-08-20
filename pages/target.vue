@@ -47,7 +47,7 @@ const reload = () => {
         </template>
         <template v-else>
             <span>{{ avgTime }} ms</span>
-            <img alt="Vue logo" ref="target" src="./assets/logo.png" @click="onClick">
+            <img alt="Vue logo" ref="target" src="~/assets/logo.png" @click="onClick">
         </template>
     </div>
 </template>
@@ -64,8 +64,5 @@ img {
     left: 0;
     width: 20px;
     height: auto;
-}
-
-img:hover {
 }
 </style>

@@ -65,7 +65,4 @@ img {
     width: 20px;
     height: auto;
 }
-
-img:hover {
-}
 </style>

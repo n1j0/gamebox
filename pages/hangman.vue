@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useGames } from '~/composables/useGames'
 
-const wordToGuess = ref<string>('Hello')
+const { hangmanWord } = useGames()
+
+const wordToGuess = ref<string>(hangmanWord)
 const guessedWord = ref<string>(wordToGuess.value.replace(/./g, '*'))
 const guess = ref<string>('')
 const remainingGuesses = ref<number>(7)
@@ -28,7 +31,7 @@ const checkCharacter = () => {
         remainingGuesses.value--
 
         if (remainingGuesses.value === 0) {
-            result.value = 'Sorry, try it again.'
+            result.value = `Sorry, try it again. Solution: ${wordToGuess.value}`
         }
         return
     }
@@ -40,7 +43,7 @@ const checkCharacter = () => {
     guess.value = ''
 
     if (!guessedWord.value.includes('*')) {
-        result.value = 'Great, start over.'
+        result.value = `Great, start over. Solution: ${wordToGuess.value}`
     }
 }
 

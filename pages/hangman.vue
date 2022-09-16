@@ -4,11 +4,22 @@ import { useGames } from '~/composables/useGames'
 
 const { hangmanWord } = useGames()
 
-const wordToGuess = ref<string>(hangmanWord)
-const guessedWord = ref<string>(wordToGuess.value.replace(/./g, '*'))
+const wordToGuess = ref<string>('')
+const guessedWord = ref<string>('')
+const chars = ref<string[]>([])
 const guess = ref<string>('')
-const remainingGuesses = ref<number>(7)
+const remainingGuesses = ref<number>(0)
 const result = ref<string>('')
+
+const setInitialValues = () => {
+    wordToGuess.value = hangmanWord()
+    guessedWord.value = wordToGuess.value.replace(/./g, '*')
+    chars.value = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'k', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    remainingGuesses.value = 7
+    result.value = ''
+}
+
+setInitialValues()
 
 const checkCharacter = () => {
     if (remainingGuesses.value === 0) {
@@ -19,6 +30,8 @@ const checkCharacter = () => {
         return
     }
 
+    chars.value[chars.value.findIndex(c => c === guess.value)] = '-'
+
     const indices = []
 
     wordToGuess.value.split('').forEach((char, idx) => {
@@ -26,6 +39,8 @@ const checkCharacter = () => {
             indices.push(idx)
         }
     })
+
+    guess.value = ''
 
     if (indices.length === 0) {
         remainingGuesses.value--
@@ -40,15 +55,13 @@ const checkCharacter = () => {
         guessedWord.value = `${guessedWord.value.substring(0, idx)}${wordToGuess.value.charAt(idx)}${guessedWord.value.substring(idx + 1)}`
     })
 
-    guess.value = ''
-
     if (!guessedWord.value.includes('*')) {
         result.value = `Great, start over. Solution: ${wordToGuess.value}`
     }
 }
 
 const reload = () => {
-    window.location.reload()
+    setInitialValues()
 }
 </script>
 
@@ -57,6 +70,9 @@ const reload = () => {
         <div v-if="!result">
             <p>Remaining guesses: {{ remainingGuesses }}</p>
             <p>{{ guessedWord }}</p>
+            <ul>
+                <li v-for="char in chars" :key="char">{{ char }}</li>
+            </ul>
             <form @submit.stop.prevent="checkCharacter">
                 <input v-model="guess" type="text"/>
                 <button type="submit">Try character!</button>

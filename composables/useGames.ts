@@ -45,7 +45,7 @@ export const useGames = () => {
         },
     ]
 
-    const hangmanWord: string = hangmanWords[Math.floor(Math.random() * (hangmanWords.length))]
+    const hangmanWord: () => string = () => hangmanWords[Math.floor(Math.random() * (hangmanWords.length))]
 
     return {
         games,

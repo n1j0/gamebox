@@ -34,7 +34,9 @@ const onClick = () => {
 }
 
 const reload = () => {
-    window.location.reload()
+    timeSum.value = 0
+    rounds.value = -1
+    startTime.value = 0
 }
 </script>
 

@@ -1,4 +1,4 @@
-import { computed, nextTick, ref, Ref } from 'vue'
+import { Ref } from 'vue'
 
 export const useTarget = () => {
     const target: Ref<HTMLImageElement | null> = ref(null)
